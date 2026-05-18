@@ -51,11 +51,15 @@ Single user. MVP is local/session only — no accounts required.
 
 - Drag-to-reorder the queue (grab handle on each card)
 
-### Session persistence
+### URL-based persistence
 
-- Queue stored in localStorage under key `queue-tube`
-- Survives page refresh and new tab
-- Corrupted/unparseable data falls back to empty queue
+- Queue state is stored in the URL as a query parameter: `?videos=ID1,ID2,ID3`
+- URL updates automatically as videos are added or removed
+- On page load, video IDs are parsed from the URL and queue is restored
+- Titles and thumbnails are fetched async via oEmbed on load — thumbnails
+  appear immediately (no fetch needed), titles load in shortly after
+- No localStorage required
+- Queue links are inherently shareable and bookmarkable
 
 ## Out of Scope (MVP)
 
@@ -68,9 +72,10 @@ Single user. MVP is local/session only — no accounts required.
 - Submit a URL → video appears in queue, input clears and focuses
 - Play first video → subsequent videos play automatically with no interaction
 - Delete a video → removed from queue and localStorage immediately
-- Refresh page → queue is restored from localStorage
 - Drag-to-reorder (grab handle on each card)
 - Click any video in queue to start at that video
+- Refresh page → queue is restored from URL params
+- Share/bookmark the URL → recipient sees the same queue
 
 ## Phase 2
 
@@ -82,6 +87,4 @@ Single user. MVP is local/session only — no accounts required.
 - [x] Autoplay — when video ends, next player starts automatically
 - [x] Delete — remove individual videos from queue
 - [x] Drag-to-reorder (grab handle on each card)
-- [ ] Persistence — localStorage survives refresh
-- [ ] (Phase 2) Drag-to-reorder
-- [ ] (Phase 3) Auth + saved playlists with shareable public links
+- [x] Persistence + shareability — queue state lives in URL params, restored on page load

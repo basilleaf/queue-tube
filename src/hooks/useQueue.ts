@@ -1,11 +1,58 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect, useRef } from 'react';
 import type { QueueItem } from '@/src/types';
 import { parseVideoId, fetchVideoTitle } from '@/src/utils/youtube';
+
+function getVideoIdsFromUrl(): string[] {
+  if (typeof window === 'undefined') return [];
+  const raw = new URLSearchParams(window.location.search).get('videos');
+  return raw ? raw.split(',').filter(Boolean) : [];
+}
+
+function syncToUrl(items: QueueItem[]) {
+  const params = new URLSearchParams(window.location.search);
+  if (items.length === 0) {
+    params.delete('videos');
+  } else {
+    params.set('videos', items.map(i => i.videoId).join(','));
+  }
+  const search = params.toString();
+  window.history.replaceState(null, '', search ? `?${search}` : window.location.pathname);
+}
 
 export function useQueue() {
   const [items, setItems] = useState<QueueItem[]>([]);
   const [isAdding, setIsAdding] = useState(false);
   const [currentIndex, setCurrentIndex] = useState<number | null>(null);
+
+  // Skip the first sync — it fires with [] before the init effect populates items from URL
+  const skipSyncRef = useRef(1);
+
+  useEffect(() => {
+    const videoIds = getVideoIdsFromUrl();
+    if (videoIds.length === 0) return;
+
+    setItems(videoIds.map(videoId => ({
+      id: crypto.randomUUID(),
+      videoId,
+      title: videoId,
+      thumbnailUrl: `https://img.youtube.com/vi/${videoId}/mqdefault.jpg`,
+    })));
+    setCurrentIndex(0);
+
+    videoIds.forEach((videoId, i) => {
+      fetchVideoTitle(videoId).then(title => {
+        setItems(prev => prev.map((item, idx) => idx === i ? { ...item, title } : item));
+      });
+    });
+  }, []);
+
+  useEffect(() => {
+    if (skipSyncRef.current > 0) {
+      skipSyncRef.current--;
+      return;
+    }
+    syncToUrl(items);
+  }, [items]);
 
   const addVideo = useCallback(async (url: string) => {
     const videoId = parseVideoId(url);
