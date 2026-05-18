@@ -46,6 +46,10 @@ Single user. MVP is local/session only — no accounts required.
 - Removes that video from the queue immediately
 - No confirmation needed
 
+### Drag to reorder
+
+- Drag-to-reorder the queue (grab handle on each card)
+
 ### Session persistence
 
 - Queue stored in localStorage under key `queue-tube`
@@ -57,7 +61,6 @@ Single user. MVP is local/session only — no accounts required.
 - Auth / accounts
 - Saving named playlists
 - Shareable links
-- Drag-to-reorder
 
 ## Acceptance Criteria
 
@@ -65,10 +68,10 @@ Single user. MVP is local/session only — no accounts required.
 - Play first video → subsequent videos play automatically with no interaction
 - Delete a video → removed from queue and localStorage immediately
 - Refresh page → queue is restored from localStorage
+- Drag-to-reorder (grab handle on each card)
 
 ## Phase 2
 
-- Drag-to-reorder (grab handle on each card)
 - Auth + saved playlists with shareable public links
 
 ## Build Order
@@ -76,6 +79,7 @@ Single user. MVP is local/session only — no accounts required.
 - [x] Queue display — URL input → adds to list → renders queue panel with thumbnails
 - [x] Autoplay — when video ends, next player starts automatically
 - [ ] Delete — remove individual videos from queue
+- [ ] Drag-to-reorder (grab handle on each card)
 - [ ] Persistence — localStorage survives refresh
 - [ ] (Phase 2) Drag-to-reorder
 - [ ] (Phase 3) Auth + saved playlists with shareable public links
