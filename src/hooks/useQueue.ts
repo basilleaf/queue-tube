@@ -30,6 +30,21 @@ export function useQueue() {
     }
   }, []);
 
+  const reorderVideos = useCallback((fromIndex: number, toIndex: number) => {
+    setItems(prev => {
+      const next = [...prev];
+      next.splice(toIndex, 0, next.splice(fromIndex, 1)[0]);
+      return next;
+    });
+    setCurrentIndex(ci => {
+      if (ci === null) return null;
+      if (ci === fromIndex) return toIndex;
+      if (fromIndex < ci && toIndex >= ci) return ci - 1;
+      if (fromIndex > ci && toIndex <= ci) return ci + 1;
+      return ci;
+    });
+  }, []);
+
   const removeVideo = useCallback((id: string) => {
     setItems(prev => {
       const idx = prev.findIndex(item => item.id === id);
@@ -45,5 +60,5 @@ export function useQueue() {
     });
   }, []);
 
-  return { items, isAdding, currentIndex, setCurrentIndex, addVideo, removeVideo };
+  return { items, isAdding, currentIndex, setCurrentIndex, addVideo, removeVideo, reorderVideos };
 }

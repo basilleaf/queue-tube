@@ -81,7 +81,7 @@ Single user. MVP is local/session only — no accounts required.
 - [x] Queue display — URL input → adds to list → renders queue panel with thumbnails
 - [x] Autoplay — when video ends, next player starts automatically
 - [x] Delete — remove individual videos from queue
-- [ ] Drag-to-reorder (grab handle on each card)
+- [x] Drag-to-reorder (grab handle on each card)
 - [ ] Persistence — localStorage survives refresh
 - [ ] (Phase 2) Drag-to-reorder
 - [ ] (Phase 3) Auth + saved playlists with shareable public links

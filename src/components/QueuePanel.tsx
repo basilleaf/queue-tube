@@ -1,4 +1,14 @@
 'use client';
+import {
+  DndContext,
+  closestCenter,
+  PointerSensor,
+  useSensor,
+  useSensors,
+  type DragEndEvent,
+} from '@dnd-kit/core';
+import { SortableContext, verticalListSortingStrategy } from '@dnd-kit/sortable';
+import { restrictToVerticalAxis, restrictToParentElement } from '@dnd-kit/modifiers';
 import { UrlInput } from './UrlInput';
 import { VideoCard } from './VideoCard';
 import type { QueueItem } from '@/src/types';
@@ -10,9 +20,22 @@ interface Props {
   onAdd: (url: string) => Promise<void>;
   onRemove: (id: string) => void;
   onPlay: (index: number) => void;
+  onReorder: (fromIndex: number, toIndex: number) => void;
 }
 
-export function QueuePanel({ items, isAdding, currentIndex, onAdd, onRemove, onPlay }: Props) {
+export function QueuePanel({ items, isAdding, currentIndex, onAdd, onRemove, onPlay, onReorder }: Props) {
+  const sensors = useSensors(
+    useSensor(PointerSensor, { activationConstraint: { distance: 5 } })
+  );
+
+  const handleDragEnd = (event: DragEndEvent) => {
+    const { active, over } = event;
+    if (!over || active.id === over.id) return;
+    const fromIndex = items.findIndex(i => i.id === active.id);
+    const toIndex = items.findIndex(i => i.id === over.id);
+    if (fromIndex !== -1 && toIndex !== -1) onReorder(fromIndex, toIndex);
+  };
+
   return (
     <div className="flex flex-col h-full">
       <div className="flex items-center justify-between px-3 pt-3 pb-2 border-b border-zinc-100">
@@ -30,15 +53,24 @@ export function QueuePanel({ items, isAdding, currentIndex, onAdd, onRemove, onP
             Paste a YouTube URL above to get started
           </p>
         ) : (
-          items.map((item, index) => (
-            <VideoCard
-              key={item.id}
-              item={item}
-              isActive={index === currentIndex}
-              onDelete={() => onRemove(item.id)}
-              onPlay={() => onPlay(index)}
-            />
-          ))
+          <DndContext
+            sensors={sensors}
+            collisionDetection={closestCenter}
+            modifiers={[restrictToVerticalAxis, restrictToParentElement]}
+            onDragEnd={handleDragEnd}
+          >
+            <SortableContext items={items.map(i => i.id)} strategy={verticalListSortingStrategy}>
+              {items.map((item, index) => (
+                <VideoCard
+                  key={item.id}
+                  item={item}
+                  isActive={index === currentIndex}
+                  onDelete={() => onRemove(item.id)}
+                  onPlay={() => onPlay(index)}
+                />
+              ))}
+            </SortableContext>
+          </DndContext>
         )}
       </div>
     </div>
