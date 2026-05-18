@@ -1,5 +1,5 @@
 'use client';
-import { useRef, useEffect, useCallback } from 'react';
+import { useRef, useEffect, useCallback, useState } from 'react';
 import { useQueue } from '@/src/hooks/useQueue';
 import { useYouTubePlayer } from '@/src/hooks/useYouTubePlayer';
 import { Player } from '@/src/components/Player';
@@ -27,6 +27,9 @@ export default function Home() {
     loadVideoRef.current(itemsRef.current[next].videoId);
   }, [setCurrentIndex]);
 
+  const [showEmptyMsg, setShowEmptyMsg] = useState(false);
+  useEffect(() => { if (items.length > 0) setShowEmptyMsg(false); }, [items.length]);
+
   const { cueVideo, loadVideo } = useYouTubePlayer(PLAYER_ID, handleEnd);
   useEffect(() => { loadVideoRef.current = loadVideo; }, [loadVideo]);
 
@@ -49,7 +52,21 @@ export default function Home() {
   return (
     <div className="flex flex-col md:flex-row h-screen overflow-hidden bg-zinc-950">
       <div className="flex items-center justify-center p-4 md:flex-1">
-        <Player id={PLAYER_ID} />
+        <div className="relative w-full max-w-3xl">
+          <Player id={PLAYER_ID} />
+          {items.length === 0 && (
+            <div
+              className="absolute inset-0 cursor-pointer rounded-xl"
+              onClick={() => setShowEmptyMsg(true)}
+            >
+              {showEmptyMsg && (
+                <div className="absolute inset-0 flex items-center justify-center bg-zinc-900/90 rounded-xl">
+                  <p className="text-zinc-400 text-lg">Add some videos to get started</p>
+                </div>
+              )}
+            </div>
+          )}
+        </div>
       </div>
       <div className="flex-1 md:flex-none md:w-80 bg-white flex flex-col border-t md:border-t-0 md:border-l border-zinc-800">
         <QueuePanel
