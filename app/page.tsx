@@ -30,6 +30,13 @@ export default function Home() {
   const { cueVideo, loadVideo } = useYouTubePlayer(PLAYER_ID, handleEnd);
   useEffect(() => { loadVideoRef.current = loadVideo; }, [loadVideo]);
 
+  const handlePlay = useCallback((index: number) => {
+    const item = itemsRef.current[index];
+    if (!item) return;
+    setCurrentIndex(index);
+    loadVideoRef.current(item.videoId);
+  }, [setCurrentIndex]);
+
   // Cue the first video exactly once: when currentIndex transitions null → 0
   const prevIndexRef = useRef<number | null>(null);
   useEffect(() => {
@@ -51,6 +58,7 @@ export default function Home() {
           currentIndex={currentIndex}
           onAdd={addVideo}
           onRemove={removeVideo}
+          onPlay={handlePlay}
         />
       </div>
     </div>

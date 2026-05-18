@@ -16,6 +16,7 @@ Single user. MVP is local/session only — no accounts required.
 - Video is appended to the queue list
 - Text field clears and refocuses immediately
 - Queue displays as a list of titles/thumbnails, not individual players
+- User can also click any video in the queue to start the queue at that video
 
 ### Autoplay queue
 
@@ -69,6 +70,7 @@ Single user. MVP is local/session only — no accounts required.
 - Delete a video → removed from queue and localStorage immediately
 - Refresh page → queue is restored from localStorage
 - Drag-to-reorder (grab handle on each card)
+- Click any video in queue to start at that video
 
 ## Phase 2
 
@@ -78,7 +80,7 @@ Single user. MVP is local/session only — no accounts required.
 
 - [x] Queue display — URL input → adds to list → renders queue panel with thumbnails
 - [x] Autoplay — when video ends, next player starts automatically
-- [ ] Delete — remove individual videos from queue
+- [x] Delete — remove individual videos from queue
 - [ ] Drag-to-reorder (grab handle on each card)
 - [ ] Persistence — localStorage survives refresh
 - [ ] (Phase 2) Drag-to-reorder

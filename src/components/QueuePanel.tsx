@@ -9,9 +9,10 @@ interface Props {
   currentIndex: number | null;
   onAdd: (url: string) => Promise<void>;
   onRemove: (id: string) => void;
+  onPlay: (index: number) => void;
 }
 
-export function QueuePanel({ items, isAdding, currentIndex, onAdd, onRemove }: Props) {
+export function QueuePanel({ items, isAdding, currentIndex, onAdd, onRemove, onPlay }: Props) {
   return (
     <div className="flex flex-col h-full">
       <div className="flex items-center justify-between px-3 pt-3 pb-2 border-b border-zinc-100">
@@ -35,6 +36,7 @@ export function QueuePanel({ items, isAdding, currentIndex, onAdd, onRemove }: P
               item={item}
               isActive={index === currentIndex}
               onDelete={() => onRemove(item.id)}
+              onPlay={() => onPlay(index)}
             />
           ))
         )}
