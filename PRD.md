@@ -73,7 +73,7 @@ Single user. MVP is local/session only — no accounts required.
 
 ## Build Order
 
-- [ ] Queue display — URL input → adds to list → renders queue panel with thumbnails
+- [x] Queue display — URL input → adds to list → renders queue panel with thumbnails
 - [ ] Autoplay — when video ends, next player starts automatically
 - [ ] Delete — remove individual videos from queue
 - [ ] Persistence — localStorage survives refresh
