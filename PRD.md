@@ -22,7 +22,7 @@ Single user. MVP is local/session only — no accounts required.
 - User hits play on the first video; the rest play automatically in order
 - No interaction required after starting the first video
 - When a video ends, the next video ID is loaded into the same player via `loadVideoById()`
-- When the last video ends, queue stops
+- when the last video ends, it should start the queue over at the first video
 
 ## UI Layout
 
@@ -74,7 +74,7 @@ Single user. MVP is local/session only — no accounts required.
 ## Build Order
 
 - [x] Queue display — URL input → adds to list → renders queue panel with thumbnails
-- [ ] Autoplay — when video ends, next player starts automatically
+- [x] Autoplay — when video ends, next player starts automatically
 - [ ] Delete — remove individual videos from queue
 - [ ] Persistence — localStorage survives refresh
 - [ ] (Phase 2) Drag-to-reorder

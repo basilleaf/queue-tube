@@ -6,10 +6,11 @@ import type { QueueItem } from '@/src/types';
 interface Props {
   items: QueueItem[];
   isAdding: boolean;
+  currentIndex: number | null;
   onAdd: (url: string) => Promise<void>;
 }
 
-export function QueuePanel({ items, isAdding, onAdd }: Props) {
+export function QueuePanel({ items, isAdding, currentIndex, onAdd }: Props) {
   return (
     <div className="flex flex-col h-full">
       <div className="flex items-center justify-between px-3 pt-3 pb-2 border-b border-zinc-100">
@@ -27,7 +28,9 @@ export function QueuePanel({ items, isAdding, onAdd }: Props) {
             Paste a YouTube URL above to get started
           </p>
         ) : (
-          items.map(item => <VideoCard key={item.id} item={item} />)
+          items.map((item, index) => (
+            <VideoCard key={item.id} item={item} isActive={index === currentIndex} />
+          ))
         )}
       </div>
     </div>
