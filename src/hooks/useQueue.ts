@@ -31,7 +31,18 @@ export function useQueue() {
   }, []);
 
   const removeVideo = useCallback((id: string) => {
-    setItems(prev => prev.filter(item => item.id !== id));
+    setItems(prev => {
+      const idx = prev.findIndex(item => item.id === id);
+      if (idx === -1) return prev;
+      const next = prev.filter(item => item.id !== id);
+      setCurrentIndex(ci => {
+        if (ci === null || next.length === 0) return null;
+        if (idx < ci) return ci - 1;   // deleted before current → shift down
+        if (idx === ci) return Math.min(ci, next.length - 1); // deleted current → clamp
+        return ci;                      // deleted after current → unchanged
+      });
+      return next;
+    });
   }, []);
 
   return { items, isAdding, currentIndex, setCurrentIndex, addVideo, removeVideo };

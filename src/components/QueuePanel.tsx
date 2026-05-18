@@ -8,9 +8,10 @@ interface Props {
   isAdding: boolean;
   currentIndex: number | null;
   onAdd: (url: string) => Promise<void>;
+  onRemove: (id: string) => void;
 }
 
-export function QueuePanel({ items, isAdding, currentIndex, onAdd }: Props) {
+export function QueuePanel({ items, isAdding, currentIndex, onAdd, onRemove }: Props) {
   return (
     <div className="flex flex-col h-full">
       <div className="flex items-center justify-between px-3 pt-3 pb-2 border-b border-zinc-100">
@@ -29,7 +30,12 @@ export function QueuePanel({ items, isAdding, currentIndex, onAdd }: Props) {
           </p>
         ) : (
           items.map((item, index) => (
-            <VideoCard key={item.id} item={item} isActive={index === currentIndex} />
+            <VideoCard
+              key={item.id}
+              item={item}
+              isActive={index === currentIndex}
+              onDelete={() => onRemove(item.id)}
+            />
           ))
         )}
       </div>

@@ -8,7 +8,7 @@ import { QueuePanel } from '@/src/components/QueuePanel';
 const PLAYER_ID = 'yt-player';
 
 export default function Home() {
-  const { items, isAdding, currentIndex, setCurrentIndex, addVideo } = useQueue();
+  const { items, isAdding, currentIndex, setCurrentIndex, addVideo, removeVideo } = useQueue();
 
   // Refs so the onEnd callback always sees fresh values without needing to be recreated
   const itemsRef = useRef(items);
@@ -50,6 +50,7 @@ export default function Home() {
           isAdding={isAdding}
           currentIndex={currentIndex}
           onAdd={addVideo}
+          onRemove={removeVideo}
         />
       </div>
     </div>
