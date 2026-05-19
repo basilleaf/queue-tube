@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <!-- Top arc: 9 o'clock clockwise over 12 to 1 o'clock -->
+  <path d="M 7 16 A 9 9 0 0 1 20.5 8.21"
+        fill="none" stroke="#d946ef" stroke-width="3" stroke-linecap="round"/>
+  <polygon points="20.5,8.21 17.17,3.98 15.17,7.44" fill="#d946ef"/>
+  <!-- Bottom arc: 3 o'clock clockwise under 6 to 7 o'clock -->
+  <path d="M 25 16 A 9 9 0 0 1 11.5 23.79"
+        fill="none" stroke="#d946ef" stroke-width="3" stroke-linecap="round"/>
+  <polygon points="11.5,23.79 14.83,28.02 16.83,24.56" fill="#d946ef"/>
+</svg>
