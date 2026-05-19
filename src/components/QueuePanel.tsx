@@ -41,9 +41,17 @@ export function QueuePanel({ items, isAdding, currentIndex, onAdd, onRemove, onP
       <div className="flex items-center justify-between px-3 pt-3 pb-2 border-b border-zinc-100">
         <h2 className="text-sm font-semibold text-zinc-700">Queue</h2>
         {items.length > 0 && (
-          <span className="text-xs text-zinc-400">
-            {items.length} video{items.length !== 1 ? 's' : ''}
-          </span>
+          <div className="flex items-center gap-2">
+            <span className="text-xs text-zinc-400">
+              {items.length} video{items.length !== 1 ? 's' : ''}
+            </span>
+            <a
+              href="/"
+              className="text-xs text-red-400 hover:text-red-600 transition-colors"
+            >
+              Start over
+            </a>
+          </div>
         )}
       </div>
       <UrlInput onAdd={onAdd} isAdding={isAdding} />
